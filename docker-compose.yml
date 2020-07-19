@@ -1,0 +1,27 @@
+version: "3.6"
+services:
+
+  rsnapshot:
+    image: kennyhyun/alpine-rsnapshot
+    build:
+      context: ./build
+    user: ${UID:-1000}:${GID:-1000}
+    working_dir: $HOME
+    volumes:
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro
+      - type: bind
+        source: ./.ssh/id_rsa
+        target: ${HOME}/.ssh/id_rsa
+        read_only: true
+      - type: bind
+        source: ./.ssh/config
+        target: ${HOME}/.ssh/config
+        read_only: true
+      - ./rsnapshot.conf:/etc/rsnapshot.conf:ro
+      - ./backups:/var/rsnapshot
+    command:
+      - rsnapshot
+      - hourly
+    networks:
+      - default

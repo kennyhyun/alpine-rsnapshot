@@ -1,0 +1,4 @@
+/rsnapshot.conf
+/rsnapshot.conf.backup
+/.env
+/backups
