@@ -8,22 +8,35 @@ Spontaneously back up with rsnapshot
 - Keep files when the remote server is down
 - Back up as a local user
 
-# Setup
-
-```
-$ ./init.sh
-```
-
-This creates `.env` file and `rsnapshot.conf` from the `build/rsnapshot.conf`
-
-
 # Running
 
-```
-$ docker-compose up
+Save as `rsnapshot.sh` and edit as your needs
+
+```sh
+#!/bin/bash
+
+docker run\
+  --name rsnapshot\
+  --rm\
+  -v /etc/passwd:/etc/passwd:ro\
+  -v /etc/group:/etc/group:ro\
+  -v $HOME/.ssh/id_rsa:$HOME/.ssh/id_rsa:ro\
+  -v ./backups:/var/rsnapshot\
+  -u $UID:$GID\
+  -w $HOME\
+  -e "BACKUP_DIRECTORIES=       kennyhyun@192.168.0.100:/etc/cron.d server/
+        kennyhyun@192.168.0.100:/etc/fonts  server/"\
+  kennyhyun/alpine-rsnapshot\
+  rsnapshot $1
 ```
 
-This will add hourly.x directory in backups and copy source files into it.
-This is supposed to be called once a hour.
+and you can run periodically
+
+rsnapshot.sh daily
+
+rsnapshot.sh weekly
+
+rsnapshot.sh monthly
+
 
 See [`rsnapshot.conf`](https://github.com/kennyhyun/alpine-rsnapshot/blob/master/build/rsnapshot.conf) for details
