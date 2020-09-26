@@ -10,7 +10,8 @@ Spontaneously back up with rsnapshot
 
 # Running
 
-Save as `rsnapshot.sh` and edit as your needs
+Provide `BACKUP_DIRECTORIES` for backup locations.
+One location per line is allowed and it's tab separated.
 
 ```sh
 #!/bin/bash
