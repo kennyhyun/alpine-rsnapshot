@@ -19,6 +19,7 @@ One location per line is allowed and it's tab separated.
 docker run\
   --name rsnapshot\
   --rm\
+  --privileged\
   -v /etc/passwd:/etc/passwd:ro\
   -v /etc/group:/etc/group:ro\
   -v $HOME/.ssh/id_rsa:$HOME/.ssh/id_rsa:ro\
